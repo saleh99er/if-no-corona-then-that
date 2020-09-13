@@ -12,8 +12,7 @@ def check_status():
 
 @app.route('/daily-check/', methods=['POST'])
 def daily_check():
-    #response = daily_check_request()
-    response = DailyCheckResponse.SUBMITTED
+    response = daily_check_request()
     response_code = 400
     if(response == DailyCheckResponse.SUBMITTED or response == DailyCheckResponse.ALREADY_SUBMITTED):
         response_code = 200

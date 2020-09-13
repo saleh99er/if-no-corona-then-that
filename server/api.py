@@ -17,8 +17,8 @@ def daily_check():
     response_code = 400
     if(response == DailyCheckResponse.SUBMITTED or response == DailyCheckResponse.ALREADY_SUBMITTED):
         response_code = 200
-    return flask.jsonify(str(response), response_code)
+    return flask.jsonify(response, response_code)
 
 
-app.run()
+app.run(host='0.0.0.0')
 

@@ -29,7 +29,7 @@ share/python-wheels/
 MANIFEST
 
 # Private key
-server/if-no-corona.json
+server/if-no-corona*.json
 
 #Android Studio (flutter) =====================
 

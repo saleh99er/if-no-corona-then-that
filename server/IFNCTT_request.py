@@ -109,24 +109,41 @@ def schedule_test_request():
     last_name = user_doc.get('lastName')
     college = user_doc.get('college')
     date_of_birth = user_doc.get('dateOfBirth')
-    print(str(date_of_birth))
-    print(type(date_of_birth))
+    # print(str(date_of_birth))
+    # print(type(date_of_birth))
 
     addr_template = "https://register.cayugahealth.com/patient-registration/employee?employer=Cornell-Surveillance&hideInsurance=1&hideEmergencyContact=1&sourceSystemPatientId=%s&firstName=%s&lastName=%s"
     addr = addr_template % (cornell_netid, first_name, last_name)
 
     with webdriver.Chrome() as driver: 
+        # First page
         driver.get(addr)
         time.sleep(1)
-        # next_form = fetch_only_element(driver, "//form")
-        idk = driver.find_element_by_class_name('button-solid')
-        # print(idk)
-        shadow_section = expand_shadow_element(driver, idk)
-        # print(shadow_section)
+        button_wrapper = driver.find_element_by_class_name('button-solid')
+        shadow_section = expand_shadow_element(driver, button_wrapper)
         next_button = shadow_section.find_element_by_class_name('button-native')
-        # print(next_button)
         ActionChains(driver).move_to_element(next_button).click(next_button).perform()
         
+        # Second page
+        time.sleep(1)
+        #have_registered_form = driver.find_element_by_xpath("//ion-item[@class='item-interactive']")
+        have_registered_form = driver.find_element_by_xpath("//ion-select[@name='hasPreviouslyRegistered']")
+        ActionChains(driver).move_to_element(have_registered_form).click(have_registered_form).perform()
+        ion_item = have_registered_form.find_element_by_class_name('ion-activated')
+        time.sleep(1)
+        yes_option = ion_item
+        ActionChains(driver).move_to_element(yes_option).click(yes_option).perform()
+
+        #have_registered_shadow = expand_shadow_element(driver, have_registered_form)
+        #yn_dropdown_button = have_registered_shadow.
+        #yn_dropdown_button.click()
+
+        
+        print("================")
+        # select_yn = shadow_dropdown.find_elements_by_xpath()
+        # shadow_select_yn = expand_shadow_element(driver, select_yn)
+
+
         # next_button = fetch_only_element(driver, "//ion-button[@value='...']")
 
         # next_button.click()

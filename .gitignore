@@ -28,6 +28,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# Private key
+server/if-no-corona.json
+
 #Android Studio (flutter) =====================
 
 # Miscellaneous

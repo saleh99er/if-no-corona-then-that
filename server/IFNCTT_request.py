@@ -4,12 +4,14 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import os
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains 
 from selenium.webdriver.common.keys import Keys
 import selenium
 import time
 from webdriver_manager.chrome import ChromeDriverManager
 
 FIREBASE_PROJECT_ID = "if-no-corona"
+# GOOGLE_APPLICATION_CREDENTIALS = "if-no-corona-1851477ee5bc.json"
 
 class DailyCheckResponse:
     SUBMITTED = 0
@@ -53,6 +55,10 @@ def is_you_may_proceed_prompt(driver):
     elements = driver.find_elements_by_xpath("//h2[contains(text(),'You May Proceed to Campus')]")
     return len(elements) > 0 
 
+def expand_shadow_element(driver, element):
+  shadow_root = driver.execute_script('return arguments[0].shadowRoot', element)
+  return shadow_root
+
 def daily_check_request():
     with webdriver.Chrome() as driver: 
         dailycheck_link = "https://dailycheck.cornell.edu/daily-checkin"
@@ -92,20 +98,42 @@ def schedule_test_request():
     cornell_netid = cornell_email[:cornell_email.find('@')]
 
     # Use the application default credentials
-    cred = credentials.ApplicationDefault()
-    firebase_admin.initialize_app(cred, {
-    'projectId': FIREBASE_PROJECT_ID,
-    })
+    cred = credentials.Certificate('if-no-corona-1851477ee5bc.json')
+    firebase_admin.initialize_app(cred)
     
     db = firestore.client()
-    user_ref = db.collection(u'users').get(cornell_netid)
-    docs = user_ref.get()
+    user_ref = db.collection(u'users').document(cornell_netid)
+    user_doc = user_ref.get()
 
-    print(type(docs))
-    print(docs)
+    first_name = user_doc.get('firstName')
+    last_name = user_doc.get('lastName')
+    college = user_doc.get('college')
+    date_of_birth = user_doc.get('dateOfBirth')
+    print(str(date_of_birth))
+    print(type(date_of_birth))
 
+    addr_template = "https://register.cayugahealth.com/patient-registration/employee?employer=Cornell-Surveillance&hideInsurance=1&hideEmergencyContact=1&sourceSystemPatientId=%s&firstName=%s&lastName=%s"
+    addr = addr_template % (cornell_netid, first_name, last_name)
 
-    addr = "https://register.cayugahealth.com/patient-registration/employee?employer=Cornell-Surveillance&hideInsurance=1&hideEmergencyContact=1&sourceSystemPatientId=%s&firstName=Saleh&lastName=Hassen"
+    with webdriver.Chrome() as driver: 
+        driver.get(addr)
+        time.sleep(1)
+        # next_form = fetch_only_element(driver, "//form")
+        idk = driver.find_element_by_class_name('button-solid')
+        # print(idk)
+        shadow_section = expand_shadow_element(driver, idk)
+        # print(shadow_section)
+        next_button = shadow_section.find_element_by_class_name('button-native')
+        # print(next_button)
+        ActionChains(driver).move_to_element(next_button).click(next_button).perform()
+        
+        # next_button = fetch_only_element(driver, "//ion-button[@value='...']")
+
+        # next_button.click()
+        # prev_registered_button = fetch_only_element(driver, "//button[@value='']")
+        # prev_registered_button.click()
+        time.sleep(10)
+
     
 
 

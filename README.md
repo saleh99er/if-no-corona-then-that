@@ -10,11 +10,14 @@ Install Python 3.8 on raspberry pi
 Flutter:
     - 
 
-Python gitignore
+Flutter gitignore:
+    - https://github.com/flutter/flutter/blob/master/.gitignore
+
+Python gitignore:
     - https://github.com/github/gitignore/blob/master/Python.gitignore
 
 Kicad:
     - https://www.snapeda.com/parts/ZC563900/YKS/view-part/?t=nodeMCU&ref=search&welcome=home
 
-NodeMCU Documentation:
-    - https://www.electronicwings.com/nodemcu/nodemcu-gpio-with-arduino-ide
+<!-- NodeMCU Documentation:
+    - https://www.electronicwings.com/nodemcu/nodemcu-gpio-with-arduino-ide -->

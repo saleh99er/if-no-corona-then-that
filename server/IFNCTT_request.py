@@ -1,10 +1,15 @@
 from enum import Enum
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import selenium
 import time
 from webdriver_manager.chrome import ChromeDriverManager
+
+FIREBASE_PROJECT_ID = "if-no-corona"
 
 class DailyCheckResponse:
     SUBMITTED = 0
@@ -82,6 +87,28 @@ def daily_check_request():
             return DailyCheckResponse.UNKNOWN
     return DailyCheckResponse.FAILURE
 
+def schedule_test_request():
+    cornell_email = os.environ.get("cornell_email")
+    cornell_netid = cornell_email[:cornell_email.find('@')]
+
+    # Use the application default credentials
+    cred = credentials.ApplicationDefault()
+    firebase_admin.initialize_app(cred, {
+    'projectId': FIREBASE_PROJECT_ID,
+    })
+    
+    db = firestore.client()
+    user_ref = db.collection(u'users').get(cornell_netid)
+    docs = user_ref.get()
+
+    print(type(docs))
+    print(docs)
+
+
+    addr = "https://register.cayugahealth.com/patient-registration/employee?employer=Cornell-Surveillance&hideInsurance=1&hideEmergencyContact=1&sourceSystemPatientId=%s&firstName=Saleh&lastName=Hassen"
+    
+
 
 if __name__ == '__main__':
-    print(daily_check_request())
+    # print(daily_check_request())
+    schedule_test_request()

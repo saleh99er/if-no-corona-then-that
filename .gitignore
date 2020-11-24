@@ -30,6 +30,7 @@ MANIFEST
 
 # Private key
 server/if-no-corona*.json
+temp_notes.txt
 
 #Android Studio (flutter) =====================
 

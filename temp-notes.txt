@@ -1,0 +1,13 @@
+https://console.cloud.google.com/apis/credentials?project=if-no-corona&organizationId=775498386689
+
+https://cloud.google.com/docs/authentication/production
+
+https://cloud.google.com/docs/authentication/getting-started
+
+https://firebase.google.com/docs/firestore/quickstart#python
+
+https://console.cloud.google.com/apis/credentials?project=if-no-corona
+
+https://github.com/saleh99er/if-no-corona-then-that
+
+

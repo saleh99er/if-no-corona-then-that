@@ -1,6 +1,6 @@
-## If No Corona Then That (IFNCTT)
+## [Deprecated] If No Corona Then That (IFNCTT)
 
-Initial Readme (TODO)
+This is an old project of mine where I was streamlining Cornell Covid 19 processes for myself the 2020-2021 school year. I dropped maintaining this project since 2021.  
 
 # Sources
 
